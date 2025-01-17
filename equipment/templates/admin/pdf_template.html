@@ -1,0 +1,115 @@
+{% load custom_filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de {{ model_name }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #ffffff;
+        }
+        header, footer {
+            background-color: #004080; /* Azul escuro elegante */
+            color: #ffffff;
+            text-align: center;
+            padding: 3px 0; /* Redução do padding */
+        }
+        header {
+            margin-bottom: 5px;
+        }
+        footer {
+            margin-top: 5px;
+            font-size: 9px; /* Redução do tamanho da fonte */
+        }
+        h1 {
+            font-size: 16px; /* Redução do tamanho da fonte */
+            margin: 0;
+            color: #ffffff;
+        }
+        .logo {
+            max-width: 80px; /* Ajuste o tamanho da logo */
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .content {
+            width: 99%; /* Redução da margem */
+            margin: auto;
+            background-color: #f8f8f8;
+            padding: 5px; /* Redução do padding */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 5px 0; /* Redução da margem */
+        }
+        th, td {
+            padding: 3px 5px; /* Redução do padding */
+            text-align: left;
+            font-size: 8px; /* Redução do tamanho da fonte */
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004080; /* Azul escuro elegante */
+            color: #ffffff;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        td {
+            background-color: #ffffff;
+        }
+        tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+        tr:hover td {
+            background-color: #e6f2ff; /* Azul claro ao passar o mouse */
+        }
+        .page-number {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px; /* Redução do tamanho da fonte */
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Relatório de {{ model_name }}</h1>
+    </header>
+    <div class="content">
+        <table>
+            <thead>
+                <tr>
+                    {% for field in fields %}
+                    <th>{{ field }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in queryset %}
+                <tr>
+                    {% for field in fields %}
+                    <td>{{ obj|getattr:field }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <p>Gerado automaticamente pelo sistema da TorviaSolutions. © {{ current_year }} - Todos os direitos reservados.</p>
+        <p>Mantomac rental</p>
+    </footer>
+    <div class="page-number">
+        Página {{ page_number }}
+    </div>
+</body>
+</html>
